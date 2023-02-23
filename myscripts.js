@@ -1,34 +1,66 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    let grid_side = 20;
+    loadGrid(16);
 
-    let grid_total = grid_side * grid_side;
+    function editGrid() {
+
+        let newValue = prompt('Enter number of squares per side: ');
+
+        if (parseInt(newValue) < 1 || parseInt(newValue) > 100) {
+
+            alert('Only number between 1 to 100');
+
+        }
+
+        let myRegex = /^[0-9]+$/;
+
+        if (newValue != null && myRegex.test(newValue)) {
+
+            loadGrid(parseInt(newValue));
+
+        }
+
+    }
+
+    const edit_grid = document.querySelector('#edit_grid');
+
+    edit_grid.addEventListener('click', editGrid);
+});
+
+function loadGrid(side) {
+
+    let total = side * side;
 
     const container = document.querySelector('#container');
 
-    container.style.setProperty('grid-template-columns', 'repeat(' + grid_side + ', 1fr)');
-    
-    container.style.setProperty('grid-template-rows', 'repeat(' + grid_side + ', 1fr)');
-    
-    for (let i = 0; i < grid_total; i++) {
+    while (container.firstChild) {
 
-        const div = document.createElement('div');
-
-        div.style.backgroundColor = "grey";
-
-        div.setAttribute('id', '' + i);
-
-        container.appendChild(div);
+        container.removeChild(container.firstChild);
+        
     }
 
-    const allDivs = document.querySelectorAll('#container div');
+    container.style.setProperty('grid-template-columns', 'repeat(' + side + ', 1fr)');
+    
+    container.style.setProperty('grid-template-rows', 'repeat(' + side + ', 1fr)');
+    
+    for (let i = 0; i < total; i++) {
+
+        const unit = document.createElement('div');
+
+        unit.style.backgroundColor = "grey";
+
+        unit.setAttribute('id', '' + i);
+
+        container.appendChild(unit);
+    }
+
+    const units = document.querySelectorAll('#container div');
 
     function paint(e) {
         this.style.backgroundColor = "black";
     }
 
-    allDivs.forEach(
-        pixel => pixel.addEventListener('mouseover', paint)
+    units.forEach(
+        unit => unit.addEventListener('mouseover', paint)
     );
-   
-});
+}
