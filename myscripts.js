@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    let grid_side = 16;
+    let grid_side = 20;
 
     let grid_total = grid_side * grid_side;
 
@@ -16,7 +16,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         div.style.backgroundColor = "grey";
 
+        div.setAttribute('id', '' + i);
+
         container.appendChild(div);
     }
 
+    const allDivs = document.querySelectorAll('#container div');
+
+    function paint(e) {
+        this.style.backgroundColor = "black";
+    }
+
+    allDivs.forEach(
+        pixel => pixel.addEventListener('mouseover', paint)
+    );
+   
 });
